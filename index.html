@@ -25,8 +25,8 @@
     
     var wins = 0;
     var losses = 0;
-    var guessesLeft = 0;
-    var guessesSoFar = 0;
+    var guessesLeft = 10;
+    var guessesSoFar = [];
 
     
     var userGuessText = document.getElementById("userGuess");
@@ -35,26 +35,43 @@
     var lossesText = document.getElementById("losses");
     var guessLeftText = document.getElementById("guesses-left");
     var guessesSoFarText = document.getElementById("guesses-so-far");
+    
 
-    document.onkeyup = function(event) {
+    
+        computerGuess = computerChoices[Math.floor(Math.random() * computerChoices.length)];
+        document.onkeyup = function(event) {
+           // computerGuess = computerChoices[Math.floor(Math.random() * computerChoices.length)];
+            var userGuess = event.key;
+            if (userGuess === computerGuess) {
+                wins++;
+                guessesLeft = 10;
+                guessesSoFar = [];
+                computerGuess = computerChoices[Math.floor(Math.random() * computerChoices.length)];
+            }
+            else if (guessesLeft === 0) {
+                computerGuess = computerChoices[Math.floor(Math.random() * computerChoices.length)];
+                losses++;
+                guessesLeft = 10;
+                guessesSoFar = [];
+                computerGuessText.textContent = "I was thinking: " + computerGuess;
+
+            }
+            else {
+                guessesSoFar.push(userGuess);
+                guessesLeft--;
+            }
+            
+            
+    
+
+            userGuessText.textContent = "You Guessed: " + userGuess;
+            winsText.textContent = "wins: " + wins;
+            lossesText.textContent = "losses: " + losses;
+            guessLeftText.textContent = "Guesses left: " + guessesLeft;
+            guessesSoFarText.textContent = "Guesses so far: " + guessesSoFar;
+        };
         
-        var userGuess = event.key;
-
-        var computerGuess = computerChoices[Math.floor(Math.random() * computerChoices.length)];
-
-        if(userGuess === computerGuess){
-            wins++
-        }
-        else {
-            losses++
-        }
-
-
-        userGuessText.textContent = "you guessed: " + userGuess;
-        computerGuessText.textContent = "I was thinking: " + computerGuess;
-        winsText.textContent = "wins: " + wins;
-        lossesText.textContent = "Losses: " + losses;
-    };
+    
     
     
     </script>
